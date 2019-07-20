@@ -1,7 +1,7 @@
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
-import { StyleSheet } from 'react-native';
+import { Root } from 'native-base';
 import Checkout from './screens/Checkout';
 import Catalog from './screens/Catalog';
 import Orders from './screens/Orders';
@@ -21,7 +21,7 @@ const OrdersNavigator = createStackNavigator({
   }
 });
 
-const App = createBottomTabNavigator({
+const TabNavigator = createBottomTabNavigator({
     Checkout: {
       screen: CheckoutNavigator,
       navigationOptions: {
@@ -45,13 +45,11 @@ const App = createBottomTabNavigator({
     },
 });
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const AppContainer = createAppContainer(TabNavigator);
+const App = () => (
+  <Root>
+    <AppContainer />
+  </Root>
+);
 
-export default createAppContainer(App);
+export default App;

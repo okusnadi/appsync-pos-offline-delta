@@ -29,11 +29,20 @@ class Catalog extends React.Component {
         title: 'Point of Sale'
     };
 
+    constructor(props) {
+        super(props);
+        this.checkoutBtnHandler = this.checkoutBtnHandler.bind(this);
+    }
+    
+    checkoutBtnHandler() {
+        return this.props.navigation.push('Checkout');
+    }
+
     render() {
         return (
             <Container>
                 <Content>
-                    <Button block info style={styles.checkoutBtn}>
+                    <Button block info style={styles.checkoutBtn} onPress={this.checkoutBtnHandler}>
                         <Text style={styles.quantityText}>1</Text>
                         <Text style={styles.subtotalTxt}>Subtotal $88.30</Text>
                     </Button>
