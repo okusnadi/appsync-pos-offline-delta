@@ -26,13 +26,16 @@ class Checkout extends React.Component {
 
     checkoutBtnHandler() {
         return ActionSheet.show({
-            options: ["Pay with cash", "Pay with credit card"],
-        }, () => {
-            Toast.show({
-                text: "Order has been processed",
-                buttonText: "Okay",
-                duration: 4000
-            });
+            options: ["Pay with cash", "Pay with credit card", "Cancel"],
+            cancelButtonIndex: 2,
+        }, buttonIndex => {
+            if (buttonIndex < 2) {
+                Toast.show({
+                    text: "Order has been processed",
+                    buttonText: "Okay",
+                    duration: 4000
+                });
+            }
         });
     }
 
