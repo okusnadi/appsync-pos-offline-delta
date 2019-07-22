@@ -14,6 +14,23 @@ import {
 } from 'native-base';
 import styles from './styles';
 
+const lineItems = [
+    {
+        qty: 3,
+        sku: '3466920836',
+        description: 'Cinammon-Sugar Donut',
+        price: 2.49,
+        total: 7.47,
+    },
+    {
+        qty: 1,
+        sku: '3475341851',
+        description: 'Cupcake',
+        price: 2.65,
+        total: 2.65,
+    }
+];
+
 class Checkout extends React.Component {
     static navigationOptions = {
         title: 'Checkout'
@@ -39,6 +56,22 @@ class Checkout extends React.Component {
         });
     }
 
+    renderLineItems(lineItems) {
+        return lineItems.map(lineItem => (
+            <ListItem icon key={lineItem.sku}>
+                <Left>
+                    <Text>{lineItem.qty}</Text>
+                </Left>
+                <Body>
+                    <Text>{lineItem.description}</Text>
+                </Body>
+                <Right>
+                    <Text>${lineItem.total}</Text>
+                </Right>
+            </ListItem>
+        ));
+    }
+
     render() {
         return (
             <Container>
@@ -49,28 +82,7 @@ class Checkout extends React.Component {
                         <ListItem itemDivider>
                             <Text>&nbsp;</Text>
                         </ListItem>
-                        <ListItem icon>
-                            <Left>
-                                <Text>3</Text>
-                            </Left>
-                            <Body>
-                                <Text>Chocolate Donut</Text>
-                            </Body>
-                            <Right>
-                                <Text>$6.00</Text>
-                            </Right>
-                        </ListItem>
-                        <ListItem icon>
-                            <Left>
-                                <Text>1</Text>
-                            </Left>
-                            <Body>
-                                <Text>Drip Coffee</Text>
-                            </Body>
-                            <Right>
-                                <Text>$3.49</Text>
-                            </Right>
-                        </ListItem>
+                        {this.renderLineItems(lineItems)}
                         <ListItem itemDivider>
                             <Text>&nbsp;</Text>
                         </ListItem>
