@@ -64,59 +64,46 @@ const products = [
     },
 ];
 
-class Catalog extends React.Component {
-    static navigationOptions = {
-        title: 'Point of Sale'
-    };
+const Catalog = (props) => {
 
-    constructor(props) {
-        super(props);
-        this.checkoutBtnHandler = this.checkoutBtnHandler.bind(this);
-        this.addBtnHandler = this.addBtnHandler.bind(this);
-    }
-    
-    checkoutBtnHandler() {
-        return this.props.navigation.push('Checkout');
+    function checkoutBtnHandler() {
+        return props.navigation.push('Checkout');
     }
 
-    addBtnHandler() {
-        
-    }
+    const productList = products.map(product => (
+        <ListItem thumbnail key={product.sku}>
+            <Left>
+                <Thumbnail square source={{ uri: product.image }} />
+            </Left>
+            <Body>
+                <Text>{product.name}</Text>
+                <Text note numberOfLines={1}>${product.price}</Text>
+            </Body>
+            <Right>
+                <Button>
+                    <Text>Add</Text>
+                </Button>
+            </Right>
+        </ListItem>
+    ));
 
-    renderProducts(products) {
-        return products.map(product => (
-            <ListItem thumbnail key={product.sku}>
-                <Left>
-                    <Thumbnail square source={{ uri: product.image }} />
-                </Left>
-                <Body>
-                    <Text>{product.name}</Text>
-                    <Text note numberOfLines={1}>${product.price}</Text>
-                </Body>
-                <Right>
-                    <Button onPress={() => this.addBtnHandler(product)}>
-                        <Text>Add</Text>
-                    </Button>
-                </Right>
-            </ListItem>
-        ));
-    }
+    return (
+        <Container>
+            <Content>
+                <Button block info style={styles.checkoutBtn} onPress={checkoutBtnHandler}>
+                    <Text style={styles.quantityText}>1</Text>
+                    <Text style={styles.subtotalTxt}>Subtotal $88.30</Text>
+                </Button>
+                <List>
+                    {productList}
+                </List>
+            </Content>
+        </Container>
+    );
+};
 
-    render() {
-        return (
-            <Container>
-                <Content>
-                    <Button block info style={styles.checkoutBtn} onPress={this.checkoutBtnHandler}>
-                        <Text style={styles.quantityText}>1</Text>
-                        <Text style={styles.subtotalTxt}>Subtotal $88.30</Text>
-                    </Button>
-                    <List>
-                        {this.renderProducts(products)}
-                    </List>
-                </Content>
-            </Container>
-        );
-    }
-}
+Catalog.navigationOptions = {
+    title: 'Point of Sale',
+};
 
 export default Catalog;
