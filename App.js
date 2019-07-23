@@ -1,10 +1,23 @@
 import React from 'react';
+import { ApolloProvider } from 'react-apollo'
+import { Rehydrated } from 'aws-appsync-react';
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
 import { Root } from 'native-base';
+import AWSAppSyncClient from 'aws-appsync';
 import Checkout from './screens/Checkout';
 import Catalog from './screens/Catalog';
 import Orders from './screens/Orders';
+import awsconfig from './aws-exports';
+
+const appSyncClient = new AWSAppSyncClient({
+  url: awsconfig.aws_appsync_graphqlEndpoint,
+  region: awsconfig.aws_appsync_region,
+  auth: {
+    type: awsconfig.aws_appsync_authenticationType,
+    apiKey: awsconfig.aws_appsync_apiKey,
+  }
+});
 
 const CheckoutNavigator = createStackNavigator({
   Catalog: {
@@ -48,7 +61,11 @@ const TabNavigator = createBottomTabNavigator({
 const AppContainer = createAppContainer(TabNavigator);
 const App = () => (
   <Root>
-    <AppContainer />
+    <ApolloProvider client={appSyncClient}>
+      <Rehydrated>
+        <AppContainer />
+      </Rehydrated>
+    </ApolloProvider>
   </Root>
 );
 
