@@ -11,58 +11,10 @@ import {
     Right,
     Body
 } from 'native-base';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
+import { listProducts } from '../../graphql/queries';
 import styles from './styles';
-
-const products = [
-    {
-        sku: '3466920836',
-        name: 'Cinammon-Sugar Donut',
-        price: 1.49,
-        image: 'https://fdingler-appsync-pos.s3-us-west-2.amazonaws.com/assets/Donut%402x.png',
-    },
-    {
-        sku: '7506355743',
-        name: 'Capuccino',
-        price: 4.00,
-        image: 'https://fdingler-appsync-pos.s3-us-west-2.amazonaws.com/assets/Capuccino%402x.png',
-    },
-    {
-        sku: '3919637313',
-        name: 'Chocolate Shake',
-        price: 5.00,
-        image: 'https://fdingler-appsync-pos.s3-us-west-2.amazonaws.com/assets/ChocolateShake%402x.png',
-    },
-    {
-        sku: '3214930706',
-        name: 'Cookie',
-        price: 1.00,
-        image: 'https://fdingler-appsync-pos.s3-us-west-2.amazonaws.com/assets/Cookie%402x.png',
-    },
-    {
-        sku: '3475341851',
-        name: 'Cupcake',
-        price: 2.65,
-        image: 'https://fdingler-appsync-pos.s3-us-west-2.amazonaws.com/assets/Cupcake%402x.png',
-    },
-    {
-        sku: '3869857338',
-        name: 'Drip Coffee',
-        price: 3.00,
-        image: 'https://fdingler-appsync-pos.s3-us-west-2.amazonaws.com/assets/DripCoffee%402x.png',
-    },
-    {
-        sku: '2596295702',
-        name: 'Glass of Milk',
-        price: 4.00,
-        image: 'https://fdingler-appsync-pos.s3-us-west-2.amazonaws.com/assets/FoamedMilk%402x.png',
-    },
-    {
-        sku: '0325090224',
-        name: 'French Press',
-        price: 7.50,
-        image: 'https://fdingler-appsync-pos.s3-us-west-2.amazonaws.com/assets/FrenchPress%402x.png',
-    },
-];
 
 const Catalog = (props) => {
 
@@ -70,8 +22,8 @@ const Catalog = (props) => {
         return props.navigation.push('Checkout');
     }
 
-    const productList = products.map(product => (
-        <ListItem thumbnail key={product.sku}>
+    const productList = props.products.map(product => (
+        <ListItem thumbnail key={product.id}>
             <Left>
                 <Thumbnail square source={{ uri: product.image }} />
             </Left>
@@ -106,4 +58,9 @@ Catalog.navigationOptions = {
     title: 'Point of Sale',
 };
 
-export default Catalog;
+const listProductsQuery = gql(listProducts);
+export default graphql(listProductsQuery, {
+    props: ({ data }) => ({
+        products: data.listProducts ? data.listProducts.items : [],
+    })
+})(Catalog);
