@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Text,
     Container,
@@ -18,8 +18,19 @@ import styles from './styles';
 
 const Catalog = (props) => {
 
+    const [lineItems, setLineItems] = useState([]);
+    const [subtotal, setSubtotal] = useState(0);
+
     function checkoutBtnHandler() {
         return props.navigation.push('Checkout');
+    }
+
+    function addProductHandler(product) {
+        setSubtotal(subtotal + product.price);
+        setLineItems([
+            ...lineItems,
+            product,
+        ]);
     }
 
     const productList = props.products.map(product => (
@@ -32,7 +43,7 @@ const Catalog = (props) => {
                 <Text note numberOfLines={1}>${product.price}</Text>
             </Body>
             <Right>
-                <Button>
+                <Button onPress={() => addProductHandler(product)}>
                     <Text>Add</Text>
                 </Button>
             </Right>
@@ -43,8 +54,8 @@ const Catalog = (props) => {
         <Container>
             <Content>
                 <Button block info style={styles.checkoutBtn} onPress={checkoutBtnHandler}>
-                    <Text style={styles.quantityText}>1</Text>
-                    <Text style={styles.subtotalTxt}>Subtotal $88.30</Text>
+                    <Text style={styles.quantityText}>{lineItems.length}</Text>
+                    <Text style={styles.subtotalTxt}>Subtotal ${subtotal.toFixed(2)}</Text>
                 </Button>
                 <List>
                     {productList}
