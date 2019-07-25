@@ -14,6 +14,8 @@ describe('order reducer', () => {
         expect(newState).toEqual({
             subtotal: 0,
             totalQty: 0,
+            tax: 0,
+            total: 0,
             lineItems: [],
         });
     });
