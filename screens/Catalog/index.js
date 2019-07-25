@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
     Text,
     Container,
@@ -14,23 +15,20 @@ import {
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { listProducts } from '../../graphql/queries';
+import { addLineItem } from '../../redux/actions';
 import styles from './styles';
 
 const Catalog = (props) => {
 
-    const [lineItems, setLineItems] = useState([]);
-    const [subtotal, setSubtotal] = useState(0);
+    const order = useSelector(state => state.order);
+    const dispatch = useDispatch();
 
     function checkoutBtnHandler() {
         return props.navigation.push('Checkout');
     }
 
     function addProductHandler(product) {
-        setSubtotal(subtotal + product.price);
-        setLineItems([
-            ...lineItems,
-            product,
-        ]);
+        dispatch(addLineItem(product));
     }
 
     const productList = props.products.map(product => (
@@ -54,8 +52,8 @@ const Catalog = (props) => {
         <Container>
             <Content>
                 <Button block info style={styles.checkoutBtn} onPress={checkoutBtnHandler}>
-                    <Text style={styles.quantityText}>{lineItems.length}</Text>
-                    <Text style={styles.subtotalTxt}>Subtotal ${subtotal.toFixed(2)}</Text>
+                    <Text style={styles.quantityText}>{order.totalQty}</Text>
+                    <Text style={styles.subtotalTxt}>Subtotal ${order.subtotal.toFixed(2)}</Text>
                 </Button>
                 <List>
                     {productList}

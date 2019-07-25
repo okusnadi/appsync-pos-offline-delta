@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
     Text,
     Container,
@@ -14,25 +15,10 @@ import {
 } from 'native-base';
 import styles from './styles';
 
-const lineItems = [
-    {
-        qty: 3,
-        sku: '3466920836',
-        description: 'Cinammon-Sugar Donut',
-        price: 2.49,
-        total: 7.47,
-    },
-    {
-        qty: 1,
-        sku: '3475341851',
-        description: 'Cupcake',
-        price: 2.65,
-        total: 2.65,
-    }
-];
-
 const Checkout = () => {
     
+    const order = useSelector(state => state.order);
+
     function checkoutBtnHandler() {
         return ActionSheet.show({
             options: ["Pay with cash", "Pay with credit card", "Cancel"],
@@ -48,7 +34,7 @@ const Checkout = () => {
         });
     }
 
-    const lineItemList = lineItems.map(lineItem => (
+    const lineItemList = order.lineItems.map(lineItem => (
         <ListItem icon key={lineItem.sku}>
             <Left>
                 <Text>{lineItem.qty}</Text>
@@ -57,7 +43,7 @@ const Checkout = () => {
                 <Text>{lineItem.description}</Text>
             </Body>
             <Right>
-                <Text>${lineItem.total}</Text>
+                <Text>${lineItem.total.toFixed(2)}</Text>
             </Right>
         </ListItem>
     ));
@@ -66,7 +52,7 @@ const Checkout = () => {
         <Container>
             <Content>
                 <Text style={styles.totalTxt}>TOTAL</Text>
-                <Text style={styles.totalQty}>$21.49</Text>
+                <Text style={styles.totalQty}>${order.total.toFixed(2)}</Text>
                 <List>
                     <ListItem itemDivider>
                         <Text>&nbsp;</Text>
@@ -80,7 +66,7 @@ const Checkout = () => {
                             <Text style={styles.subtotalsTxt}>Subtotal</Text>
                         </Body>
                         <Right>
-                            <Text>$18.00</Text>
+                            <Text>${order.subtotal.toFixed(2)}</Text>
                         </Right>
                     </ListItem>
                     <ListItem>
@@ -88,7 +74,7 @@ const Checkout = () => {
                             <Text style={styles.subtotalsTxt}>Tax</Text>
                         </Body>
                         <Right>
-                            <Text>$3.49</Text>
+                            <Text>${order.tax.toFixed(2)}</Text>
                         </Right>
                     </ListItem>
                     <ListItem>
@@ -96,7 +82,7 @@ const Checkout = () => {
                             <Text style={styles.subtotalsTxt}>Total</Text>
                         </Body>
                         <Right>
-                            <Text>$21.49</Text>
+                            <Text>${order.total.toFixed(2)}</Text>
                         </Right>
                     </ListItem>
                 </List>

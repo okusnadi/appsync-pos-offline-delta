@@ -1,5 +1,6 @@
 import React from 'react';
-import { ApolloProvider } from 'react-apollo'
+import { ApolloProvider } from 'react-apollo';
+import { Provider } from 'react-redux';
 import { Rehydrated } from 'aws-appsync-react';
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
@@ -9,6 +10,7 @@ import Checkout from './screens/Checkout';
 import Catalog from './screens/Catalog';
 import Orders from './screens/Orders';
 import awsconfig from './aws-exports';
+import store from './redux/store';
 
 const appSyncClient = new AWSAppSyncClient({
   url: awsconfig.aws_appsync_graphqlEndpoint,
@@ -61,11 +63,13 @@ const TabNavigator = createBottomTabNavigator({
 const AppContainer = createAppContainer(TabNavigator);
 const App = () => (
   <Root>
-    <ApolloProvider client={appSyncClient}>
-      <Rehydrated>
-        <AppContainer />
-      </Rehydrated>
-    </ApolloProvider>
+    <Provider store={store}>
+      <ApolloProvider client={appSyncClient}>
+        <Rehydrated>
+          <AppContainer />
+        </Rehydrated>
+      </ApolloProvider>
+    </Provider>
   </Root>
 );
 
