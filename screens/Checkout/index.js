@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
     Text,
     Container,
@@ -13,11 +13,13 @@ import {
     ActionSheet,
     Toast
 } from 'native-base';
+import { startNewOrder } from '../../redux/actions';
 import styles from './styles';
 
-const Checkout = () => {
+const Checkout = (props) => {
     
     const order = useSelector(state => state.order);
+    const dispatch = useDispatch();
 
     function checkoutBtnHandler() {
         return ActionSheet.show({
@@ -30,6 +32,9 @@ const Checkout = () => {
                     buttonText: "Okay",
                     duration: 4000
                 });
+                
+                dispatch(startNewOrder());
+                props.navigation.goBack();
             }
         });
     }

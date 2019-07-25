@@ -1,5 +1,5 @@
 import { orderReducer } from '../reducers';
-import { addLineItem } from '../actions';
+import { addLineItem, startNewOrder } from '../actions';
 
 describe('order reducer', () => {
     const product = {
@@ -68,4 +68,16 @@ describe('order reducer', () => {
         const stateTwo = orderReducer(stateOne, addLineItem(productTwo));
         expect(stateTwo.lineItems.length).toEqual(2);
     });
+
+    it('should reset order to initialState on startNewOrder', () => {
+        const state = orderReducer(undefined, addLineItem(product));
+        const newState = orderReducer(state, startNewOrder());
+        expect(newState).toEqual({
+            subtotal: 0,
+            totalQty: 0,
+            tax: 0,
+            total: 0,
+            lineItems: [],
+        });
+    })
 });

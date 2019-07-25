@@ -59,6 +59,8 @@ export const orderReducer = (state = orderInitialState, action) => {
                 totalQty,
                 lineItems: lineItemsReducer(state, action)
             };
+        case "START_NEW_ORDER":
+            return orderInitialState;
         default: 
             return state;
     }
