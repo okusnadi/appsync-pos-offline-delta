@@ -1,11 +1,10 @@
 type Order @model {
   id: ID!
-  lineItems: [LineItem] @connection(name: "LineItems")
+  lineItems: [LineItem] @connection
 }
 type LineItem @model {
   id: ID!
-  order: Order! @connection(name: "LineItems")
-  productId: String,
+  sku: String,
   qty: Int
   description: String
   price: Float
@@ -17,4 +16,8 @@ type Product @model {
   name: String
   price: Float
   image: String
+}
+
+type Mutation {
+  createOrderTransaction(order: String): String @function(name: "createOrderFunction")
 }

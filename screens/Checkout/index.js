@@ -1,5 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import gql from 'graphql-tag';
+import { Mutation } from 'react-apollo';
 import {
     Text,
     Container,
@@ -14,12 +16,23 @@ import {
     Toast
 } from 'native-base';
 import { startNewOrder } from '../../redux/actions';
+import { createOrder } from '../../graphql/mutations';
 import styles from './styles';
 
 const Checkout = (props) => {
     
     const order = useSelector(state => state.order);
     const dispatch = useDispatch();
+
+    function submitOrder() {
+        return props.createOrder({
+            variables: {
+                CreateOrderInput: {
+                    lineItems: order.lineItems,
+                },
+            },
+        });
+    }
 
     function checkoutBtnHandler() {
         return ActionSheet.show({
@@ -33,6 +46,7 @@ const Checkout = (props) => {
                     duration: 4000
                 });
                 
+                submitOrder();
                 dispatch(startNewOrder());
                 props.navigation.goBack();
             }
@@ -100,7 +114,12 @@ const Checkout = (props) => {
 };
 
 Checkout.navigationOptions = {
-    title: 'Checkout'
+    title: 'Checkout',
 };
 
-export default Checkout;
+const createOrderMutation = gql(createOrder);
+export default CheckoutContainer = (props) => (
+    <Mutation mutation={createOrderMutation}>
+        {(createOrder) => <Checkout {...props} createOrder={createOrder} />}
+    </Mutation>
+);
