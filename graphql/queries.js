@@ -7,7 +7,7 @@ export const getOrder = `query GetOrder($id: ID!) {
     lineItems {
       items {
         id
-        productId
+        sku
         qty
         description
         price
@@ -37,13 +37,7 @@ export const listOrders = `query ListOrders(
 export const getLineItem = `query GetLineItem($id: ID!) {
   getLineItem(id: $id) {
     id
-    order {
-      id
-      lineItems {
-        nextToken
-      }
-    }
-    productId
+    sku
     qty
     description
     price
@@ -59,10 +53,7 @@ export const listLineItems = `query ListLineItems(
   listLineItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      order {
-        id
-      }
-      productId
+      sku
       qty
       description
       price

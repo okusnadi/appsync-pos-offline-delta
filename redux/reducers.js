@@ -24,7 +24,6 @@ export const lineItemsReducer = (state = [], action) => {
                         description: product.name,
                         total: product.price,
                         sku: product.sku,
-                        productId: product.id
                     }
                 ];
             }

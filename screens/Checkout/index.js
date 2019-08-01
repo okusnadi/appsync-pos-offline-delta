@@ -16,7 +16,7 @@ import {
     Toast
 } from 'native-base';
 import { startNewOrder } from '../../redux/actions';
-import { createOrder } from '../../graphql/mutations';
+import { createOrderWithLineItems } from '../../graphql/mutations';
 import styles from './styles';
 
 const Checkout = (props) => {
@@ -27,7 +27,7 @@ const Checkout = (props) => {
     function submitOrder() {
         return props.createOrder({
             variables: {
-                CreateOrderInput: {
+                input: {
                     lineItems: order.lineItems,
                 },
             },
@@ -117,7 +117,7 @@ Checkout.navigationOptions = {
     title: 'Checkout',
 };
 
-const createOrderMutation = gql(createOrder);
+const createOrderMutation = gql(createOrderWithLineItems);
 export default CheckoutContainer = (props) => (
     <Mutation mutation={createOrderMutation}>
         {(createOrder) => <Checkout {...props} createOrder={createOrder} />}

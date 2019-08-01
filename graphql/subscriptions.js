@@ -7,7 +7,7 @@ export const onCreateOrder = `subscription OnCreateOrder {
     lineItems {
       items {
         id
-        productId
+        sku
         qty
         description
         price
@@ -24,7 +24,7 @@ export const onUpdateOrder = `subscription OnUpdateOrder {
     lineItems {
       items {
         id
-        productId
+        sku
         qty
         description
         price
@@ -41,7 +41,7 @@ export const onDeleteOrder = `subscription OnDeleteOrder {
     lineItems {
       items {
         id
-        productId
+        sku
         qty
         description
         price
@@ -55,13 +55,7 @@ export const onDeleteOrder = `subscription OnDeleteOrder {
 export const onCreateLineItem = `subscription OnCreateLineItem {
   onCreateLineItem {
     id
-    order {
-      id
-      lineItems {
-        nextToken
-      }
-    }
-    productId
+    sku
     qty
     description
     price
@@ -72,13 +66,7 @@ export const onCreateLineItem = `subscription OnCreateLineItem {
 export const onUpdateLineItem = `subscription OnUpdateLineItem {
   onUpdateLineItem {
     id
-    order {
-      id
-      lineItems {
-        nextToken
-      }
-    }
-    productId
+    sku
     qty
     description
     price
@@ -89,13 +77,7 @@ export const onUpdateLineItem = `subscription OnUpdateLineItem {
 export const onDeleteLineItem = `subscription OnDeleteLineItem {
   onDeleteLineItem {
     id
-    order {
-      id
-      lineItems {
-        nextToken
-      }
-    }
-    productId
+    sku
     qty
     description
     price
