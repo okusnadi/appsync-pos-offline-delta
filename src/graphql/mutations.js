@@ -1,8 +1,21 @@
 // eslint-disable
 // this is an auto generated file. This will be overwritten
 
-export const createOrderTransaction = `mutation CreateOrderTransaction($order: String) {
-  createOrderTransaction(order: $order)
+export const createOrderWithLineItems = `mutation CreateOrderWithLineItems($input: CreateOrderInput!) {
+  createOrderWithLineItems(input: $input) {
+    id
+    lineItems {
+      items {
+        id
+        sku
+        qty
+        description
+        price
+        total
+      }
+      nextToken
+    }
+  }
 }
 `;
 export const createOrder = `mutation CreateOrder($input: CreateOrderInput!) {
