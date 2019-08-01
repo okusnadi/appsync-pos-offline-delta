@@ -36,6 +36,7 @@ exports.handler = async function (event, context) {
         id: uuidv4(),
         createdAt: now,
         updatedAt: now,
+        orderLineItemsId: orderId, // GSI to relate line items to orderId
         ...lineItem,
       },
     },

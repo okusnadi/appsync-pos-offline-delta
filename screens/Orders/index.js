@@ -4,7 +4,6 @@ import {
     Text,
     Container,
     Content,
-    Spinner,
     List,
     ListItem,
     Left,
