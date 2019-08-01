@@ -1,11 +1,14 @@
 type Order @model {
   id: ID!
+  total: Float
+  subtotal: Float
+  tax: Float
   lineItems: [LineItem] @connection
 }
 
 type LineItem @model {
   id: ID!
-  sku: String,
+  sku: String
   qty: Int
   description: String
   price: Float

@@ -1,5 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
 import {
     Text,
     Container,
@@ -12,8 +14,6 @@ import {
     Right,
     Body
 } from 'native-base';
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
 import { listProducts } from '../../graphql/queries';
 import { addLineItem } from '../../redux/actions';
 import styles from './styles';

@@ -1,5 +1,8 @@
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
+import moment from 'moment';
 import {
     Text,
     Container,
@@ -10,9 +13,26 @@ import {
     Right,
     Body,
 } from 'native-base';
+import { listOrders } from '../../graphql/queries';
 import styles from './styles';
 
-const Orders = () => {
+const Orders = (props) => {
+
+    const orderList = props.orders.map(order => (
+        <ListItem thumbnail key={order.id}>
+            <Left>
+                <Ionicons name="ios-cloud-done" size={30} color="green" />
+            </Left>
+            <Body>
+                <Text style={styles.orderTitle}>{moment(order.createdAt).format('hh:mm A')}</Text>
+                <Text note>#{order.id.substring(24)}</Text>
+            </Body>
+            <Right>
+                <Text style={styles.orderTitle}>${order.total.toFixed(2)}</Text>
+            </Right>
+        </ListItem>
+    ));
+
     return (
         <Container>
             <Content>
@@ -20,45 +40,7 @@ const Orders = () => {
                     <ListItem itemDivider>
                         <Text>July 21, 2019</Text>
                     </ListItem>
-                    <ListItem thumbnail>
-                        <Left>
-                            <Ionicons name="ios-cloud-done" size={30} color="green" />
-                        </Left>
-                        <Body>
-                            <Text style={styles.orderTitle}>11:07 AM</Text>
-                            <Text note>#AFG-1007-201</Text>
-                        </Body>
-                        <Right>
-                            <Text style={styles.orderTitle}>$21.49</Text>
-                        </Right>
-                    </ListItem>
-                    <ListItem thumbnail>
-                        <Left>
-                        <Ionicons name="ios-cloud" color="gray" size={30} />
-                        </Left>
-                        <Body>
-                            <Text style={styles.orderTitle}>8:15 AM</Text>
-                            <Text note>#GTR-1008-876</Text>
-                        </Body>
-                        <Right>
-                            <Text style={styles.orderTitle}>$4.35</Text>
-                        </Right>
-                    </ListItem>
-                    <ListItem itemDivider>
-                        <Text>July 19, 2019</Text>
-                    </ListItem>
-                    <ListItem thumbnail>
-                        <Left>
-                        <Ionicons name="ios-cloud-done" color="green" size={30} />
-                        </Left>
-                        <Body>
-                            <Text style={styles.orderTitle}>4:32 PM</Text>
-                            <Text note>#ABF-1009-321</Text>
-                        </Body>
-                        <Right>
-                            <Text style={styles.orderTitle}>$7.99</Text>
-                        </Right>
-                    </ListItem>
+                    {orderList}
                 </List>
             </Content>
         </Container>
@@ -69,4 +51,9 @@ Orders.navigationOptions = {
     title: 'Order History'
 };
 
-export default Orders;
+const listOrdersQuery = gql(listOrders);
+export default graphql(listOrdersQuery, {
+    props: ({ data }) => ({
+        orders: data.listOrders ? data.listOrders.items : [],
+    })
+})(Orders);
