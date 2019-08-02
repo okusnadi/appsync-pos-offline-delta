@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { RefreshControl } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
@@ -35,7 +36,12 @@ const Orders = (props) => {
 
     return (
         <Container>
-            <Content>
+            <Content refreshControl={
+                <RefreshControl
+                    refreshing={props.loading}
+                    onRefresh={props.refreshOrders}
+                />
+            }>
                 <List>
                     <ListItem itemDivider>
                         <Text>July 21, 2019</Text>
@@ -55,5 +61,7 @@ const listOrdersQuery = gql(listOrders);
 export default graphql(listOrdersQuery, {
     props: ({ data }) => ({
         orders: data.listOrders ? data.listOrders.items : [],
+        refreshOrders: data.refetch,
+        loading: data.networkStatus === 4,
     })
 })(Orders);
