@@ -7,6 +7,8 @@ export const createOrderWithLineItems = `mutation CreateOrderWithLineItems($inpu
     total
     subtotal
     tax
+    createdAt
+    updatedAt
     lineItems {
       items {
         id
@@ -27,6 +29,8 @@ export const createOrder = `mutation CreateOrder($input: CreateOrderInput!) {
     total
     subtotal
     tax
+    createdAt
+    updatedAt
     lineItems {
       items {
         id
@@ -47,6 +51,8 @@ export const updateOrder = `mutation UpdateOrder($input: UpdateOrderInput!) {
     total
     subtotal
     tax
+    createdAt
+    updatedAt
     lineItems {
       items {
         id
@@ -67,6 +73,8 @@ export const deleteOrder = `mutation DeleteOrder($input: DeleteOrderInput!) {
     total
     subtotal
     tax
+    createdAt
+    updatedAt
     lineItems {
       items {
         id

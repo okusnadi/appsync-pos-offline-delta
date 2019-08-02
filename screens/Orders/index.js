@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import moment from 'moment';
+import _ from 'lodash';
 import {
     Text,
     Container,
@@ -19,20 +20,38 @@ import styles from './styles';
 
 const Orders = (props) => {
 
-    const orderList = props.orders.map(order => (
-        <ListItem thumbnail key={order.id}>
-            <Left>
-                <Ionicons name="ios-cloud-done" size={30} color="green" />
-            </Left>
-            <Body>
-                <Text style={styles.orderTitle}>{moment(order.createdAt).format('hh:mm A')}</Text>
-                <Text note>#{order.id.substring(24)}</Text>
-            </Body>
-            <Right>
-                <Text style={styles.orderTitle}>${order.total.toFixed(2)}</Text>
-            </Right>
-        </ListItem>
-    ));
+    // Moment complains that date format is deprecated
+    const ordersFormatted = props.orders.map(order => ({
+        ...order,
+        createdAt: new Date(parseInt(order.createdAt))
+    }));
+
+    const ordersByDay = _.groupBy(ordersFormatted, order => moment(order.createdAt).format('MMM Do, YYYY'));
+    const ordersByDayList = _.keys(ordersByDay).map(day => {
+        const orders = ordersByDay[day];
+        const orderList = orders.map(order => (
+            <ListItem thumbnail key={order.id}>
+                <Left>
+                    <Ionicons name="ios-cloud-done" size={30} color="green" />
+                </Left>
+                <Body>
+                    <Text style={styles.orderTitle}>{moment(order.createdAt).format('hh:mm A')}</Text>
+                    <Text note>#{order.id.substring(24)}</Text>
+                </Body>
+                <Right>
+                    <Text style={styles.orderTitle}>${order.total.toFixed(2)}</Text>
+                </Right>
+            </ListItem>
+        ));
+
+        const sectionTitle = (
+            <ListItem itemDivider key={day}>
+                <Text>{day}</Text>
+            </ListItem>
+        );
+        
+        return [sectionTitle, ...orderList];
+    });
 
     return (
         <Container>
@@ -43,10 +62,7 @@ const Orders = (props) => {
                 />
             }>
                 <List>
-                    <ListItem itemDivider>
-                        <Text>July 21, 2019</Text>
-                    </ListItem>
-                    {orderList}
+                    {ordersByDayList}
                 </List>
             </Content>
         </Container>

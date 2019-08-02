@@ -7,6 +7,8 @@ export const getOrder = `query GetOrder($id: ID!) {
     total
     subtotal
     tax
+    createdAt
+    updatedAt
     lineItems {
       items {
         id
@@ -32,6 +34,8 @@ export const listOrders = `query ListOrders(
       total
       subtotal
       tax
+      createdAt
+      updatedAt
       lineItems {
         nextToken
       }

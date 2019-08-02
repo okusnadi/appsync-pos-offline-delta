@@ -7,6 +7,8 @@ export const onCreateOrder = `subscription OnCreateOrder {
     total
     subtotal
     tax
+    createdAt
+    updatedAt
     lineItems {
       items {
         id
@@ -27,6 +29,8 @@ export const onUpdateOrder = `subscription OnUpdateOrder {
     total
     subtotal
     tax
+    createdAt
+    updatedAt
     lineItems {
       items {
         id
@@ -47,6 +51,8 @@ export const onDeleteOrder = `subscription OnDeleteOrder {
     total
     subtotal
     tax
+    createdAt
+    updatedAt
     lineItems {
       items {
         id

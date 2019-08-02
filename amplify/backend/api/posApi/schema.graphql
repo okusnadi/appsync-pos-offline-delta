@@ -3,6 +3,8 @@ type Order @model {
   total: Float
   subtotal: Float
   tax: Float
+  createdAt: String
+  updatedAt: String
   lineItems: [LineItem] @connection
 }
 
