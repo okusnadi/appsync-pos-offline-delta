@@ -43,7 +43,7 @@ const Checkout = (props) => {
                 Toast.show({
                     text: "Order has been processed",
                     buttonText: "Okay",
-                    duration: 4000
+                    duration: 2000
                 });
                 
                 submitOrder();
@@ -105,7 +105,7 @@ const Checkout = (props) => {
                         </Right>
                     </ListItem>
                 </List>
-                <Button block info style={styles.checkoutBtn} onPress={checkoutBtnHandler}>
+                <Button block info style={styles.checkoutBtn} onPress={checkoutBtnHandler} disabled={order.lineItems.length === 0}>
                     <Text style={styles.checkoutTxt}>Checkout</Text>
                 </Button>
             </Content>
