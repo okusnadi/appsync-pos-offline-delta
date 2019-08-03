@@ -26,8 +26,9 @@ const Orders = (props) => {
         createdAt: new Date(parseInt(order.createdAt))
     }));
 
-    const ordersByDay = _.groupBy(ordersFormatted, order => moment(order.createdAt).format('MMM Do, YYYY'));
-    const ordersByDayList = _.keys(ordersByDay).map(day => {
+    const ordersByDay = _.groupBy(ordersFormatted, order => moment(order.createdAt).format('YYYY-MM-DD'));
+    const days = _.keys(ordersByDay);
+    const ordersByDayList = days.sort().reverse().map(day => {
         const orders = ordersByDay[day];
         const orderList = orders.map(order => (
             <ListItem thumbnail key={order.id}>
@@ -46,7 +47,7 @@ const Orders = (props) => {
 
         const sectionTitle = (
             <ListItem itemDivider key={day}>
-                <Text>{day}</Text>
+                <Text>{moment(day).format('MMM Do, YYYY')}</Text>
             </ListItem>
         );
         

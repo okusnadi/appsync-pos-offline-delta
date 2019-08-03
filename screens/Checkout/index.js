@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
+import { graphqlMutation } from 'aws-appsync-react';
 import {
     Text,
     Container,
@@ -17,6 +17,8 @@ import {
 } from 'native-base';
 import { startNewOrder } from '../../redux/actions';
 import { createOrderWithLineItems } from '../../graphql/mutations';
+import { CreateOrderInput } from '../../graphql/types';
+import { listOrders } from '../../graphql/queries';
 import styles from './styles';
 
 const Checkout = (props) => {
@@ -25,10 +27,19 @@ const Checkout = (props) => {
     const dispatch = useDispatch();
 
     function submitOrder() {
-        return props.createOrder({
+        const now = new Date();
+        console.log(now);
+        return props.createOrderWithLineItems({
+            inputType: gql(CreateOrderInput),
             variables: {
                 input: {
-                    lineItems: order.lineItems,
+                    id: now,
+                    createdAt: now,
+                    updatedAt: now,
+                    subtotal: order.subtotal,
+                    tax: order.tax,
+                    total: order.total,
+                    lineItems: order.lineItems
                 },
             },
         });
@@ -118,8 +129,8 @@ Checkout.navigationOptions = {
 };
 
 const createOrderMutation = gql(createOrderWithLineItems);
-export default CheckoutContainer = (props) => (
-    <Mutation mutation={createOrderMutation}>
-        {(createOrder) => <Checkout {...props} createOrder={createOrder} />}
-    </Mutation>
-);
+const listOrdersQuery = gql(listOrders);
+export default graphqlMutation(
+    createOrderMutation,
+    listOrdersQuery
+)(Checkout);

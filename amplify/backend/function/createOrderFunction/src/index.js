@@ -53,8 +53,5 @@ exports.handler = async function (event, context) {
   }).promise();
 
   console.log('transactionResult=', JSON.stringify(transactionResult));
-  
-  return {
-    id: orderId,
-  };
+  return order;
 };

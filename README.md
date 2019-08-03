@@ -3,3 +3,9 @@ This React Native mobile app demonstrates how to leverage the offline and delta 
 
 
 <img src="./assets/Screenshots.png" height="520" />
+
+### TODO
+
+- Make `codegen` generate the input types? Like `CreateOrderInput` in the `graphql/mutations.js` file. 
+- Stop amplify from autogenerating all queries and mutations when I only need a few? 
+- Create a single dynamodb table for orders, lineItems and products

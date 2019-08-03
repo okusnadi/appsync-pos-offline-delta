@@ -63,7 +63,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "appsyncpos-prod-20190722134539-deployment",
-					"S3Key": "amplify-builds/createOrderFunction-2f734f4736646f41434d-build.zip"
+					"S3Key": "amplify-builds/createOrderFunction-41547179764a4a696f64-build.zip"
 				}
 			}
 		},
