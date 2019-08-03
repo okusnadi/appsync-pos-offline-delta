@@ -39,7 +39,6 @@ describe('order reducer', () => {
             description: 'Chocolate Cookie',
             total: 5,
             sku: 'abcd',
-            productId: 1,
         });
     });
 
