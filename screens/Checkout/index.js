@@ -17,7 +17,6 @@ import {
 } from 'native-base';
 import { startNewOrder } from '../../redux/actions';
 import { createOrderWithLineItems } from '../../graphql/mutations';
-import { CreateOrderInput } from '../../graphql/types';
 import { listOrders } from '../../graphql/queries';
 import styles from './styles';
 
@@ -28,20 +27,16 @@ const Checkout = (props) => {
 
     function submitOrder() {
         const now = new Date();
-        console.log(now);
         return props.createOrderWithLineItems({
-            inputType: gql(CreateOrderInput),
-            variables: {
-                input: {
-                    id: now,
-                    createdAt: now,
-                    updatedAt: now,
-                    subtotal: order.subtotal,
-                    tax: order.tax,
-                    total: order.total,
-                    lineItems: order.lineItems
-                },
-            },
+            input: {
+                id: now.toISOString(),
+                createdAt: now,
+                updatedAt: now,
+                subtotal: order.subtotal,
+                tax: order.tax,
+                total: order.total,
+                lineItems: order.lineItems,
+            }
         });
     }
 
@@ -132,5 +127,6 @@ const createOrderMutation = gql(createOrderWithLineItems);
 const listOrdersQuery = gql(listOrders);
 export default graphqlMutation(
     createOrderMutation,
-    listOrdersQuery
+    listOrdersQuery,
+    'Order'
 )(Checkout);

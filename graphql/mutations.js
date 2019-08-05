@@ -9,17 +9,6 @@ export const createOrderWithLineItems = `mutation CreateOrderWithLineItems($inpu
     tax
     createdAt
     updatedAt
-    lineItems {
-      items {
-        id
-        sku
-        qty
-        description
-        price
-        total
-      }
-      nextToken
-    }
   }
 }
 `;
