@@ -26,10 +26,10 @@ const Checkout = (props) => {
     const dispatch = useDispatch();
 
     function submitOrder() {
-        const now = new Date();
+        const now = new Date().toISOString();
         return props.createOrderWithLineItems({
             input: {
-                id: now.toISOString(),
+                id: now,
                 createdAt: now,
                 updatedAt: now,
                 subtotal: order.subtotal,
