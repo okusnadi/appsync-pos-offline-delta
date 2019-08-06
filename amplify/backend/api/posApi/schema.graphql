@@ -1,9 +1,9 @@
-type Order @model {
+type Order @model @key(fields: ["id", "createdAt"]) {
   id: ID!
   total: Float
   subtotal: Float
   tax: Float
-  createdAt: String
+  createdAt: String!
   updatedAt: String
   lineItems: [LineItem] @connection
 }
