@@ -42,7 +42,7 @@ const Checkout = (props) => {
 
     function checkoutBtnHandler() {
         return ActionSheet.show({
-            options: ["Pay with cash", "Pay with credit card", "Cancel"],
+            options: ["Pay with cash", "Cancel"],
             cancelButtonIndex: 2,
         }, buttonIndex => {
             if (buttonIndex < 2) {

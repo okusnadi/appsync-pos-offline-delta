@@ -6,7 +6,7 @@ exports.handler = async function (event, context) {
   console.log('Event=', JSON.stringify(event));
   const input = event.arguments.input;
   const orderId = uuidv4();
-  const now = Date.now();
+  const now = new Date().toISOString();
 
   const order = {
     id: orderId,
@@ -34,8 +34,6 @@ exports.handler = async function (event, context) {
       Item: {
         __typename: "LineItem",
         id: uuidv4(),
-        createdAt: now,
-        updatedAt: now,
         orderLineItemsId: orderId, // GSI to relate line items to orderId
         ...lineItem,
       },
